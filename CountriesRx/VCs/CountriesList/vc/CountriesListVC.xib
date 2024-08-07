@@ -24,13 +24,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="D1x-SI-kCE">
-                    <rect key="frame" x="0.0" y="119" width="393" height="733"/>
+                    <rect key="frame" x="0.0" y="134" width="393" height="718"/>
                     <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                 </tableView>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Country..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ft6-ap-HH6">
-                    <rect key="frame" x="20" y="59" width="353" height="40"/>
+                    <rect key="frame" x="20" y="64" width="353" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="AKe-qp-tfN"/>
+                        <constraint firstAttribute="height" constant="50" id="AKe-qp-tfN"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <textInputTraits key="textInputTraits"/>
@@ -40,7 +40,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwy-0P-89C">
-                    <rect key="frame" x="40" y="199" width="313" height="0.0"/>
+                    <rect key="frame" x="40" y="214" width="313" height="0.0"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -54,7 +54,7 @@
                 <constraint firstItem="D1x-SI-kCE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="RDN-tA-TNP"/>
                 <constraint firstItem="kwy-0P-89C" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="RDO-Ws-j5p"/>
                 <constraint firstAttribute="bottom" secondItem="D1x-SI-kCE" secondAttribute="bottom" id="eJK-P8-63V"/>
-                <constraint firstItem="Ft6-ap-HH6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eMp-tb-bcl"/>
+                <constraint firstItem="Ft6-ap-HH6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="eMp-tb-bcl"/>
                 <constraint firstItem="kwy-0P-89C" firstAttribute="top" secondItem="Ft6-ap-HH6" secondAttribute="bottom" constant="100" id="i4G-zF-XZJ"/>
                 <constraint firstItem="kwy-0P-89C" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="jCN-YO-fJ8"/>
                 <constraint firstItem="Ft6-ap-HH6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="uAe-En-bJS"/>
@@ -66,7 +66,7 @@
     </objects>
     <resources>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

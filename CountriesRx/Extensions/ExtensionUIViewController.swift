@@ -34,6 +34,10 @@ extension UIViewController {
         scrollView.refreshControl?.endRefreshing()
     }
     
+    func backButtonPressed() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     func hideKeyboardWhenTappedAround(cancelTouches: Bool) {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
