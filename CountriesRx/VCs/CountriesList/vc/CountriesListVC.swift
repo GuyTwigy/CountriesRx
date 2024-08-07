@@ -12,6 +12,7 @@ class CountriesListVC: UIViewController {
     private var vm: CountriesListVM?
     private var countryList: [CountryData] = []
     private var notFilteredCountryList: [CountryData] = []
+    var finishedScroll: Bool = true
     
     @IBOutlet weak var loader: UIActivityIndicatorView! {
         didSet {
@@ -25,7 +26,7 @@ class CountriesListVC: UIViewController {
     }
     @IBOutlet weak var tblCountries: UITableView!
     @IBOutlet weak var noCountriesIndicationLbl: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -79,6 +80,17 @@ extension CountriesListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if finishedScroll {
+            searchTextField.resignFirstResponder()
+            finishedScroll = false
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            finishedScroll = true
+        }
 }
 
 extension CountriesListVC: CountriesListVMDelegete {
