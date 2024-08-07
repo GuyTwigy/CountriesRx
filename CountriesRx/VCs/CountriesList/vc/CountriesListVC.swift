@@ -53,7 +53,9 @@ class CountriesListVC: UIViewController {
     
     @objc private func refreshData() {
         searchTextField.text = ""
-        vm?.fetchCountries()
+        Task {
+            await vm?.fetchCountries()
+        }
     }
 }
 

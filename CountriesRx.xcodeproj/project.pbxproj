@@ -28,6 +28,8 @@
 		9D7ECDAF2C637856000972FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDAE2C637856000972FE /* NetworkManager.swift */; };
 		9D7ECDB32C6380FB000972FE /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDB22C6380FB000972FE /* ExtensionUIViewController.swift */; };
 		9D7ECDB52C6383F2000972FE /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDB42C6383F2000972FE /* ExtensionUIView.swift */; };
+		9DCE08722C63BA2900CE14B0 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCE08712C63BA2900CE14B0 /* URLSessionProtocol.swift */; };
+		9DCE08742C63BE6D00CE14B0 /* FetchCountriesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCE08732C63BE6D00CE14B0 /* FetchCountriesProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		9D7ECDAE2C637856000972FE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9D7ECDB22C6380FB000972FE /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
 		9D7ECDB42C6383F2000972FE /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
+		9DCE08712C63BA2900CE14B0 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		9DCE08732C63BE6D00CE14B0 /* FetchCountriesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCountriesProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +258,8 @@
 			isa = PBXGroup;
 			children = (
 				9D7ECDAE2C637856000972FE /* NetworkManager.swift */,
+				9DCE08712C63BA2900CE14B0 /* URLSessionProtocol.swift */,
+				9DCE08732C63BE6D00CE14B0 /* FetchCountriesProtocol.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -404,6 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCE08722C63BA2900CE14B0 /* URLSessionProtocol.swift in Sources */,
 				9D7ECDB32C6380FB000972FE /* ExtensionUIViewController.swift in Sources */,
 				9D7ECDB52C6383F2000972FE /* ExtensionUIView.swift in Sources */,
 				9D7ECDAA2C637772000972FE /* ErrorsHandlers.swift in Sources */,
@@ -416,6 +423,7 @@
 				9D7ECDA62C6374C5000972FE /* CountryFlagVC.swift in Sources */,
 				9D7ECD5F2C635E0D000972FE /* SceneDelegate.swift in Sources */,
 				9D7ECDAD2C637802000972FE /* NetworkBuilder.swift in Sources */,
+				9DCE08742C63BE6D00CE14B0 /* FetchCountriesProtocol.swift in Sources */,
 				9D7ECD9F2C63729F000972FE /* CountryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
