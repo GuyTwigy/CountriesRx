@@ -9,17 +9,7 @@ import UIKit
 
 class CountryCell: UITableViewCell {
 
-    @IBOutlet weak var cellView: UIView! {
-        didSet {
-            cellView.layer.cornerRadius = 8
-            cellView.clipsToBounds = true
-            cellView.layer.masksToBounds = false
-            cellView.layer.shadowRadius = 4
-            cellView.layer.shadowOpacity = 0.5
-            cellView.layer.shadowOffset = CGSize(width: 2, height: 4)
-            cellView.layer.shadowColor = UIColor.lightGray.cgColor
-        }
-    }
+    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var flagLbl: UILabel!
     @IBOutlet weak var countryNameLbl: UILabel!
     
