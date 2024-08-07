@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let initialViewController = CountriesListVC(nibName: "CountriesListVC", bundle: nil)
         let navigationController = UINavigationController(rootViewController: initialViewController)
+        navigationController.isNavigationBarHidden = true
         window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
