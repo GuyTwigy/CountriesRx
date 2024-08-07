@@ -8,22 +8,7 @@
 import Foundation
 
 protocol URLSessionProtocol {
-    func data(for request: URLRequest) async throws -> (Data, URLResponse)
+    func dataTask(with request: URLRequest, completionHandler: @Sendable @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
-extension URLSession: URLSessionProtocol {
-}
-
-class MockURLSession: URLSessionProtocol {
-    var data: Data?
-    var response: URLResponse?
-    var error: Error?
-
-    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
-        if let error {
-            throw error
-        }
-        return (data ?? Data(), response ?? URLResponse())
-    }
-}
-
+extension URLSession: URLSessionProtocol {}
