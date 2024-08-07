@@ -23,6 +23,11 @@
 		9D7ECDA02C63729F000972FE /* CountryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D7ECD9E2C63729F000972FE /* CountryCell.xib */; };
 		9D7ECDA62C6374C5000972FE /* CountryFlagVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDA42C6374C5000972FE /* CountryFlagVC.swift */; };
 		9D7ECDA72C6374C5000972FE /* CountryFlagVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D7ECDA52C6374C5000972FE /* CountryFlagVC.xib */; };
+		9D7ECDAA2C637772000972FE /* ErrorsHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDA92C637772000972FE /* ErrorsHandlers.swift */; };
+		9D7ECDAD2C637802000972FE /* NetworkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDAC2C637802000972FE /* NetworkBuilder.swift */; };
+		9D7ECDAF2C637856000972FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDAE2C637856000972FE /* NetworkManager.swift */; };
+		9D7ECDB32C6380FB000972FE /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDB22C6380FB000972FE /* ExtensionUIViewController.swift */; };
+		9D7ECDB52C6383F2000972FE /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECDB42C6383F2000972FE /* ExtensionUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +68,11 @@
 		9D7ECD9E2C63729F000972FE /* CountryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryCell.xib; sourceTree = "<group>"; };
 		9D7ECDA42C6374C5000972FE /* CountryFlagVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryFlagVC.swift; sourceTree = "<group>"; };
 		9D7ECDA52C6374C5000972FE /* CountryFlagVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryFlagVC.xib; sourceTree = "<group>"; };
+		9D7ECDA92C637772000972FE /* ErrorsHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsHandlers.swift; sourceTree = "<group>"; };
+		9D7ECDAC2C637802000972FE /* NetworkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBuilder.swift; sourceTree = "<group>"; };
+		9D7ECDAE2C637856000972FE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9D7ECDB22C6380FB000972FE /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
+		9D7ECDB42C6383F2000972FE /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,9 +128,13 @@
 				9D7ECD602C635E0D000972FE /* ViewController.swift */,
 				9D7ECD652C635E0D000972FE /* Assets.xcassets */,
 				9D7ECD672C635E0D000972FE /* LaunchScreen.storyboard */,
-				9D7ECD992C637022000972FE /* Models */,
-				9D7ECD932C636E81000972FE /* VCs */,
 				9D7ECD6A2C635E0D000972FE /* Info.plist */,
+				9D7ECD992C637022000972FE /* Models */,
+				9D7ECDA82C637751000972FE /* ErrorsHandlers */,
+				9D7ECDB12C6380DB000972FE /* Extensions */,
+				9D7ECDAB2C6377F8000972FE /* NetworkBuilder */,
+				9D7ECDB02C63785B000972FE /* NetworkManager */,
+				9D7ECD932C636E81000972FE /* VCs */,
 			);
 			path = CountriesRx;
 			sourceTree = "<group>";
@@ -154,8 +168,8 @@
 		9D7ECD942C636E98000972FE /* CountriesList */ = {
 			isa = PBXGroup;
 			children = (
-				9D7ECD962C636EB9000972FE /* vm */,
 				9D7ECD952C636EAB000972FE /* vc */,
+				9D7ECD962C636EB9000972FE /* vm */,
 				9D7ECD9C2C63726D000972FE /* cells */,
 			);
 			path = CountriesList;
@@ -218,6 +232,39 @@
 			children = (
 			);
 			path = vm;
+			sourceTree = "<group>";
+		};
+		9D7ECDA82C637751000972FE /* ErrorsHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				9D7ECDA92C637772000972FE /* ErrorsHandlers.swift */,
+			);
+			path = ErrorsHandlers;
+			sourceTree = "<group>";
+		};
+		9D7ECDAB2C6377F8000972FE /* NetworkBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				9D7ECDAC2C637802000972FE /* NetworkBuilder.swift */,
+			);
+			path = NetworkBuilder;
+			sourceTree = "<group>";
+		};
+		9D7ECDB02C63785B000972FE /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				9D7ECDAE2C637856000972FE /* NetworkManager.swift */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		9D7ECDB12C6380DB000972FE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9D7ECDB22C6380FB000972FE /* ExtensionUIViewController.swift */,
+				9D7ECDB42C6383F2000972FE /* ExtensionUIView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,13 +404,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D7ECDB32C6380FB000972FE /* ExtensionUIViewController.swift in Sources */,
+				9D7ECDB52C6383F2000972FE /* ExtensionUIView.swift in Sources */,
+				9D7ECDAA2C637772000972FE /* ErrorsHandlers.swift in Sources */,
 				9D7ECD982C636ED7000972FE /* CountriesListVM.swift in Sources */,
 				9D7ECD612C635E0D000972FE /* ViewController.swift in Sources */,
 				9D7ECD912C636C4B000972FE /* CountriesListVC.swift in Sources */,
+				9D7ECDAF2C637856000972FE /* NetworkManager.swift in Sources */,
 				9D7ECD5D2C635E0D000972FE /* AppDelegate.swift in Sources */,
 				9D7ECD9B2C63704D000972FE /* CountryData.swift in Sources */,
 				9D7ECDA62C6374C5000972FE /* CountryFlagVC.swift in Sources */,
 				9D7ECD5F2C635E0D000972FE /* SceneDelegate.swift in Sources */,
+				9D7ECDAD2C637802000972FE /* NetworkBuilder.swift in Sources */,
 				9D7ECD9F2C63729F000972FE /* CountryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

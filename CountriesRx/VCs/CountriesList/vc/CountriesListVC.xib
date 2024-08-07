@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CountriesListVC" customModule="CountriesRx" customModuleProvider="target">
             <connections>
                 <outlet property="loader" destination="lxe-bs-gOQ" id="dnI-tP-RVw"/>
+                <outlet property="noCountriesIndicationLbl" destination="kwy-0P-89C" id="TY1-2m-sAj"/>
                 <outlet property="searchTextField" destination="Ft6-ap-HH6" id="PEL-An-iGx"/>
                 <outlet property="tblCountries" destination="D1x-SI-kCE" id="A0Q-ng-3sU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -23,11 +24,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="D1x-SI-kCE">
-                    <rect key="frame" x="0.0" y="139" width="393" height="713"/>
+                    <rect key="frame" x="0.0" y="119" width="393" height="733"/>
                     <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                 </tableView>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Country..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ft6-ap-HH6">
-                    <rect key="frame" x="20" y="79" width="353" height="40"/>
+                    <rect key="frame" x="20" y="59" width="353" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="AKe-qp-tfN"/>
                     </constraints>
@@ -38,14 +39,24 @@
                     <rect key="frame" x="178" y="432" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwy-0P-89C">
+                    <rect key="frame" x="40" y="199" width="313" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kwy-0P-89C" secondAttribute="trailing" constant="40" id="Jgh-UD-dK9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Ft6-ap-HH6" secondAttribute="trailing" constant="20" id="Jlz-9a-qVn"/>
                 <constraint firstItem="D1x-SI-kCE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="RDN-tA-TNP"/>
+                <constraint firstItem="kwy-0P-89C" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="RDO-Ws-j5p"/>
                 <constraint firstAttribute="bottom" secondItem="D1x-SI-kCE" secondAttribute="bottom" id="eJK-P8-63V"/>
-                <constraint firstItem="Ft6-ap-HH6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="eMp-tb-bcl"/>
+                <constraint firstItem="Ft6-ap-HH6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eMp-tb-bcl"/>
+                <constraint firstItem="kwy-0P-89C" firstAttribute="top" secondItem="Ft6-ap-HH6" secondAttribute="bottom" constant="100" id="i4G-zF-XZJ"/>
+                <constraint firstItem="kwy-0P-89C" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="jCN-YO-fJ8"/>
                 <constraint firstItem="Ft6-ap-HH6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="uAe-En-bJS"/>
                 <constraint firstItem="D1x-SI-kCE" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="z1T-8y-hAT"/>
                 <constraint firstItem="D1x-SI-kCE" firstAttribute="top" secondItem="Ft6-ap-HH6" secondAttribute="bottom" constant="20" id="zFw-X5-ahj"/>
@@ -56,9 +67,6 @@
     <resources>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
