@@ -6,23 +6,35 @@
 //
 
 import Foundation
+import RealmSwift
 
-class CountryData: Codable {
-    let name: NameDetails?
-    let flag: String?
-    var saved: Bool?
+class CountryData: Object, Codable {
+    @objc dynamic var id: String? = nil
+    @objc dynamic var name: NameDetails? = nil
+    @objc dynamic var flag: String? = nil
     
-    init(name: NameDetails?, flag: String?, saved: Bool? = false) {
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    convenience init(name: NameDetails?, flag: String?) {
+        self.init()
         self.name = name
         self.flag = flag
-        self.saved = saved
     }
 }
 
-class NameDetails: Codable {
-    let common: String?
-
-    init(common: String?) {
+class NameDetails: Object, Codable {
+    @objc dynamic var id: String? = nil
+    @objc dynamic var common: String? = nil
+    
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    convenience init(common: String? = nil) {
+        self.init()
         self.common = common
     }
 }
