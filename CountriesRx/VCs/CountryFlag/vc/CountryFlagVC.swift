@@ -9,6 +9,7 @@ import UIKit
 
 class CountryFlagVC: UIViewController {
 
+    var vm: CountryFlagVM?
     private var country: CountryData?
     
     @IBOutlet weak var countryFlag: UILabel!
@@ -16,6 +17,9 @@ class CountryFlagVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let country {
+            vm = CountryFlagVM(country: country)
+        }
         setupContent()
     }
     
