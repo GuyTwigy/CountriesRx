@@ -9,7 +9,6 @@ import UIKit
 
 class CountryCell: UITableViewCell {
 
-    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var flagLbl: UILabel!
     @IBOutlet weak var countryNameLbl: UILabel!
     
