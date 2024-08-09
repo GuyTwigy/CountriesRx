@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RealmSwift
          
 protocol CountriesListVMDelegete: AnyObject {
     func countriesFetched(error: Error?)

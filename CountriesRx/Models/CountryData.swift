@@ -8,33 +8,39 @@
 import Foundation
 import RealmSwift
 
-class CountryData: Object, Codable {
-    @objc dynamic var id: String? = nil
-    @objc dynamic var name: NameDetails? = nil
-    @objc dynamic var flag: String? = nil
+class RealmCountryData: Object, ObjectKeyIdentifiable, Codable {
+    @Persisted(primaryKey: true) var _id: ObjectId?
+    @Persisted var identifierInt: String?
+    @Persisted var flag: String? = nil
+    @Persisted var realmName: String?
     
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-    
-    convenience init(name: NameDetails?, flag: String?) {
+    convenience init(_id: ObjectId, identifierInt: String?, flag: String? = nil, realmName: String?) {
         self.init()
-        self.name = name
+        self._id = _id
+        self.identifierInt = identifierInt
         self.flag = flag
+        self.realmName = realmName
     }
 }
 
-class NameDetails: Object, Codable {
-    @objc dynamic var id: String? = nil
-    @objc dynamic var common: String? = nil
+class CountryData: Codable {
+    var name: NameDetails? = nil
+    var flag: String? = nil
+    var identifierInt: String?
+    var objectIdString: String?
     
-    
-    override static func primaryKey() -> String? {
-        return "id"
+    init(flag: String?, name: NameDetails?, identifierInt: String?, objectIdString: String?) {
+        self.name = name
+        self.flag = flag
+        self.identifierInt = identifierInt
+        self.objectIdString = objectIdString
     }
+}
+
+class NameDetails: Codable {
+    var common: String? = nil
     
-    convenience init(common: String? = nil) {
-        self.init()
+    init(common: String? = nil) {
         self.common = common
     }
 }

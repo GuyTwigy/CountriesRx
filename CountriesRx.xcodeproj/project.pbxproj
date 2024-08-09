@@ -13,6 +13,7 @@
 		9D7510232C63FA5500F2A56C /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9D7510202C63FA5500F2A56C /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9D7510262C63FCDB00F2A56C /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7510252C63FCDB00F2A56C /* RealmManager.swift */; };
 		9D7510282C64D14300F2A56C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9D7510272C64D14300F2A56C /* RxCocoa */; };
+		9D75102E2C66553700F2A56C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D75102D2C66553700F2A56C /* Utils.swift */; };
 		9D7ECD5D2C635E0D000972FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECD5C2C635E0D000972FE /* AppDelegate.swift */; };
 		9D7ECD5F2C635E0D000972FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECD5E2C635E0D000972FE /* SceneDelegate.swift */; };
 		9D7ECD612C635E0D000972FE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ECD602C635E0D000972FE /* ViewController.swift */; };
@@ -72,6 +73,7 @@
 /* Begin PBXFileReference section */
 		9D75101E2C63F90700F2A56C /* CountryFlagVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryFlagVM.swift; sourceTree = "<group>"; };
 		9D7510252C63FCDB00F2A56C /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		9D75102D2C66553700F2A56C /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		9D7ECD592C635E0D000972FE /* CountriesRx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountriesRx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7ECD5C2C635E0D000972FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D7ECD5E2C635E0D000972FE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +146,14 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		9D75102C2C66552800F2A56C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9D75102D2C66553700F2A56C /* Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		9D7ECD502C635E0D000972FE = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +186,7 @@
 				9D7ECD6A2C635E0D000972FE /* Info.plist */,
 				9D7ECD992C637022000972FE /* Models */,
 				9D7510242C63FCC400F2A56C /* Realm */,
+				9D75102C2C66552800F2A56C /* Utils */,
 				9D7ECDA82C637751000972FE /* ErrorsHandlers */,
 				9D7ECDB12C6380DB000972FE /* Extensions */,
 				9D7ECDAB2C6377F8000972FE /* NetworkBuilder */,
@@ -470,6 +481,7 @@
 				9D7ECDAF2C637856000972FE /* NetworkManager.swift in Sources */,
 				9D7ECD5D2C635E0D000972FE /* AppDelegate.swift in Sources */,
 				9D7ECD9B2C63704D000972FE /* CountryData.swift in Sources */,
+				9D75102E2C66553700F2A56C /* Utils.swift in Sources */,
 				9D7ECDA62C6374C5000972FE /* CountryFlagVC.swift in Sources */,
 				9D7ECD5F2C635E0D000972FE /* SceneDelegate.swift in Sources */,
 				9D7ECDAD2C637802000972FE /* NetworkBuilder.swift in Sources */,
@@ -830,8 +842,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
