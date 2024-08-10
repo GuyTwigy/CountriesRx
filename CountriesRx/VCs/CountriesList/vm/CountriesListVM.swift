@@ -25,6 +25,49 @@ class CountriesListVM {
     private let disposeBag = DisposeBag()
     
     init() {}
+    
+    func singleFetchCountries() async {
+        do {
+            let realmCountries = try await RealmManager.shared.fetchRealmCountries()
+            savedList = realmCountries
+            countryModifiedList.removeAll()
+            countryModifiedList = savedList
+            
+            dataService.fetchCountries()
+                .observe(on: MainScheduler.instance)
+                .subscribe(onSuccess: { [weak self] countries in
+                    guard let self else {
+                        self?.countryList.onNext(self?.countryModifiedList ?? [])
+                        self?.countryList.onCompleted()
+                        self?.delegate?.countriesFetched(error: ErrorsHandlers.requestError(.decodingError("Fail when try to subscribe")))
+                        return
+                    }
+                    
+                    let filteredCountryList = countries.filter { country in
+                        !self.countryModifiedList.contains { $0.name?.common == country.name?.common }
+                    }
+                    
+                    self.countryModifiedList.append(contentsOf: filteredCountryList)
+                    self.countryList.onNext(self.countryModifiedList)
+                    self.notFilteredCountryList = self.countryModifiedList
+                    self.delegate?.countriesFetched(error: nil)
+                }, onFailure: { [weak self] error in
+                    guard let self else {
+                        self?.countryList.onNext(self?.countryModifiedList ?? [])
+                        self?.countryList.onCompleted()
+                        self?.delegate?.countriesFetched(error: ErrorsHandlers.requestError(.other(error)))
+                        return
+                    }
+                    
+                    self.countryList.onNext(countryModifiedList)
+                    self.delegate?.countriesFetched(error: error)
+                })
+                .disposed(by: disposeBag)
+        } catch {
+            print("Fail to fetch fav list, error: \(error.localizedDescription)")
+        }
+    }
+    
     func fetchCountries() async {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
@@ -32,7 +75,6 @@ class CountriesListVM {
             countryModifiedList.removeAll()
             countryModifiedList = savedList
 
-            // Initiate four independent fetches that run concurrently
             let fetch1 = dataService.fetchCountries().asObservable()
             let fetch2 = dataService.fetchCountries().asObservable()
             let fetch3 = dataService.fetchCountries().asObservable()

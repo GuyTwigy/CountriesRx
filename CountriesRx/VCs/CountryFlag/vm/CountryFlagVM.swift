@@ -22,7 +22,7 @@ class CountryFlagVM {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
             let newObjectId = try ObjectId(string: Utils.generate24HexDigitString())
             if !realmCountries.contains( where: { $0.name?.common == newCountry.name?.common }) && !realmCountries.contains( where: { $0.objectIdString == newObjectId.stringValue }) {
-                let countryWithId = RealmCountryData(_id: newObjectId, identifierInt: "\((Int(realmCountries.last?.identifierInt ?? "0") ?? 0) + 1)", flag: newCountry.flag, realmName: newCountry.name?.common)
+                let countryWithId = RealmCountryData(_id: newObjectId, identifierInt: "\((Int(realmCountries.first?.identifierInt ?? "0") ?? 0) + 1)", flag: newCountry.flag, realmName: newCountry.name?.common)
                 
                 do {
                     try await RealmManager.shared.addCountry(newCountry: countryWithId)

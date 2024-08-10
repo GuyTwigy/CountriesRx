@@ -13,8 +13,9 @@ class CountriesListVC: UIViewController {
 
     private var vm: CountriesListVM?
     private var countryList: [CountryData] = []
-    var finishedScroll: Bool = true
+    private var finishedScroll: Bool = true
     private var disposebag = DisposeBag()
+    private var willAppearFirstTime: Bool = false
     
     @IBOutlet weak var loader: UIActivityIndicatorView! {
         didSet {
@@ -38,14 +39,25 @@ class CountriesListVC: UIViewController {
         bindTableData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if willAppearFirstTime {
+            Task {
+                await vm?.singleFetchCountries()
+            }
+        }
+        willAppearFirstTime = true
+    }
+    
     private func setupTableView() {
+        tblCountries.delegate = self
         tblCountries.register(UINib(nibName: "CountryCell", bundle: nil), forCellReuseIdentifier: "CountryCell")
     }
     
     @objc private func refreshData() {
         searchTextField.text = ""
         Task {
-            await vm?.fetchCountries()
+            await vm?.singleFetchCountries()
         }
     }
     
@@ -65,7 +77,11 @@ class CountriesListVC: UIViewController {
         
         
         vm?.countryList.subscribe(onNext: { [weak self] countries in
-            guard let self else { return }
+            guard let self else { 
+                return
+            }
+            
+            
             self.countryList = countries
             self.endRefreshing(scrollView: self.tblCountries)
             noCountriesIndicationLbl.text = "No Countries Found for '\(searchTextField.text ?? "")'"
@@ -77,6 +93,9 @@ class CountriesListVC: UIViewController {
             await vm?.fetchCountries()
         }
     }
+}
+
+extension CountriesListVC: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if finishedScroll {
