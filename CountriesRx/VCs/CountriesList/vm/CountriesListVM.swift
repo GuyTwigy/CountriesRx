@@ -31,7 +31,6 @@ class CountriesListVM {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
             savedList = realmCountries
             countryModifiedList.removeAll()
-            countryModifiedList = savedList
             
             dataService.fetchCountries()
                 .observe(on: MainScheduler.instance)
@@ -42,6 +41,18 @@ class CountriesListVM {
                         self?.delegate?.countriesFetched(error: ErrorsHandlers.requestError(.decodingError("Fail when try to subscribe")))
                         return
                     }
+                    
+                    let missingCountries = self.savedList.filter { savedCountry in
+                        !countries.contains { $0.name?.common == savedCountry.name?.common }
+                    }
+
+                    if !missingCountries.isEmpty {
+                        self.savedList.removeAll { savedCountry in
+                            missingCountries.contains { $0.name?.common == savedCountry.name?.common }
+                        }
+                    }
+                    
+                    countryModifiedList = savedList
                     
                     let filteredCountryList = countries.filter { country in
                         !self.countryModifiedList.contains { $0.name?.common == country.name?.common }
@@ -89,6 +100,18 @@ class CountriesListVM {
                     print("result2: num of countries \(result2.count)")
                     print("result3: num of countries \(result3.count)")
                     print("result4: num of countries \(result4.count)")
+                    
+                    let missingCountries = self.savedList.filter { savedCountry in
+                        !result1.contains { $0.name?.common == savedCountry.name?.common }
+                    }
+
+                    if !missingCountries.isEmpty {
+                        self.savedList.removeAll { savedCountry in
+                            missingCountries.contains { $0.name?.common == savedCountry.name?.common }
+                        }
+                    }
+                    
+                    countryModifiedList = savedList
                     
                     let filteredCountryList = result1.filter { country in
                         !self.countryModifiedList.contains { $0.name?.common == country.name?.common }
