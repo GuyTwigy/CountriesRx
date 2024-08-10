@@ -25,14 +25,14 @@ class RealmManager: ObservableObject {
     }
     
     func initialRealm() async throws {
-        user = try? await app.login(credentials: Credentials.anonymous)
-        configuration = user?.flexibleSyncConfiguration(initialSubscriptions: { subscriptions in
-            if subscriptions.first(named: "all-Countries") == nil {
-                subscriptions.append(QuerySubscription<RealmCountryData>(name: "all-Countries"))
-            }
-            
-        }, rerunOnOpen: true)
         do {
+            user = try? await app.login(credentials: Credentials.anonymous)
+            configuration = user?.flexibleSyncConfiguration(initialSubscriptions: { subscriptions in
+                if subscriptions.first(named: "all-Countries") == nil {
+                    subscriptions.append(QuerySubscription<RealmCountryData>(name: "all-Countries"))
+                }
+                
+            }, rerunOnOpen: true)
             if let configuration {
                 realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always)
                 print("connected succesfuly realm")
@@ -62,7 +62,7 @@ class RealmManager: ObservableObject {
     func fetchRealmCountries() async throws -> [CountryData] {
         do {
             if let realm {
-                countries = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt", ascending: true)
+                countries = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt", ascending: false)
                 if let countries {
                     var newCountryArray: [CountryData] = []
                     let countriesArray = Array(countries)
@@ -78,9 +78,4 @@ class RealmManager: ObservableObject {
             }
         }
     }
-    
-//    private func convertToRealmCountryData(realmCountryData: CountryData) -> CountryData {
-//        let nameDetails = realmCountryData.name.map { NameDetails(common: $0.common) }
-//        return CountryData(_id: realmCountryData._id ?? ObjectId(), identifierInt: realmCountryData.identifierInt, name: nameDetails, flag: realmCountryData.flag, realmName: nameDetails?.common)
-//    }
 }

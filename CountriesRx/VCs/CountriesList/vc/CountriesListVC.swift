@@ -44,7 +44,9 @@ class CountriesListVC: UIViewController {
     
     @objc private func refreshData() {
         searchTextField.text = ""
-        vm?.fetchCountries()
+        Task {
+            await vm?.fetchCountries()
+        }
     }
     
     func bindTableData() {
@@ -71,7 +73,9 @@ class CountriesListVC: UIViewController {
             loader.stopAnimating()
         }).disposed(by: disposebag)
         
-        vm?.fetchCountries()
+        Task {
+            await vm?.fetchCountries()
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
