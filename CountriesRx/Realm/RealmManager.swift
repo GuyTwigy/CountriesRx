@@ -8,21 +8,22 @@
 import RealmSwift
 import Foundation
 
+@MainActor
 class RealmManager: ObservableObject {
     
     static let shared = RealmManager()
-        
-        private let app = App(id: "application-countriesrx-dlsznei")
-        var realm: Realm?
-        @Published var user: User?
-        @Published var countries: Results<RealmCountryData>?
-        
-        private init() {
-            Task {
-                try await initialRealm()
-            }
+    
+    private let app = App(id: "application-countriesrx-dlsznei")
+    var realm: Realm?
+    @Published var user: User?
+    @Published var countries: Results<RealmCountryData>?
+    
+    private init() {
+        Task {
+            try await initialRealm()
         }
-        
+    }
+    
     func initialRealm() async throws {
         do {
             if let currentUser = app.currentUser {
@@ -64,10 +65,12 @@ class RealmManager: ObservableObject {
     
     func fetchRealmCountries() async throws -> [CountryData] {
         do {
-            if let realm = realm {
-                countries = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt")
+            if let realm {
+                let fetchedCountries: Results<RealmCountryData>? = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt")
                 
-                guard let countries = countries else { return [] }
+                guard let countries = fetchedCountries else {
+                    return []
+                }
                 
                 let newCountryArray = countries.map { CountryData(flag: $0.flag, name: NameDetails(common: $0.realmName), identifierInt: $0.identifierInt, objectIdString: $0._id?.stringValue) }
                 

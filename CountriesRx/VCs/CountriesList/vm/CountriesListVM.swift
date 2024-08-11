@@ -13,6 +13,7 @@ protocol CountriesListVMDelegete: AnyObject {
     func countriesFetched(error: Error?)
 }
 
+@MainActor
 class CountriesListVM {
     
     var countryList = PublishSubject<[CountryData]>()

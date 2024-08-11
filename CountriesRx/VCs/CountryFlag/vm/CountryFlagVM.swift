@@ -11,13 +11,13 @@ import RealmSwift
 class CountryFlagVM {
     
     init(country: CountryData) {
-        Task {
-            await addCountry(newCountry: country)
+        Task { @MainActor in
+            try await addCountry(newCountry: country)
         }
     }
     
-    func addCountry(newCountry: CountryData) async {
-        
+    @MainActor
+    func addCountry(newCountry: CountryData) async throws {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
             let newObjectId = try ObjectId(string: Utils.generate24HexDigitString())
@@ -34,8 +34,7 @@ class CountryFlagVM {
                 print("\(newCountry.name?.common ?? "") Already added or same objectId")
             }
         } catch {
-            print("Fail to fetch fav list, error: \(error.localizedDescription)")
+            print("Fail to fetch or add country, error: \(error.localizedDescription)")
         }
     }
 }
-
