@@ -17,17 +17,17 @@ protocol CountriesListVMDelegete: AnyObject {
 class CountriesListVM {
     
     var countryList = PublishSubject<[CountryData]>()
-    private var countryModifiedList: [CountryData] = []
-    private var savedList: [CountryData] = []
-    private var notFilteredCountryList: [CountryData] = []
+    var countryModifiedList: [CountryData] = []
+    var savedList: [CountryData] = []
+    var notFilteredCountryList: [CountryData] = []
     weak var delegate: CountriesListVMDelegete?
     
     var dataService = NetworkManager()
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     init() {}
     
-    func singleFetchCountries() async {
+    func singleFetchCountries() async throws {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
             savedList.removeAll()
@@ -63,7 +63,7 @@ class CountriesListVM {
         }
     }
     
-    func fetchCountries() async {
+    func fourCallsfetchCountries() async throws {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
             savedList.removeAll()
@@ -79,7 +79,9 @@ class CountriesListVM {
             Observable.zip(fetch1, fetch2, fetch3, fetch4)
                 .observe(on: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] result1, result2, result3, result4 in
-                    guard let self else { return }
+                    guard let self else { 
+                        return
+                    }
                     
                     print("result1: num of countries \(result1.count)")
                     print("result2: num of countries \(result2.count)")
@@ -139,14 +141,14 @@ class CountriesListVM {
         countryList.onNext(countryModifiedList)
     }
     
-    private func filterCountries(searchText: String) -> [CountryData] {
+    func filterCountries(searchText: String) -> [CountryData] {
         let filteredList = notFilteredCountryList.filter { country in
             return country.name?.common?.lowercased().contains(searchText.lowercased()) ?? false
         }
         return filteredList
     }
     
-    private func resetCountriesList() -> [CountryData] {
+    func resetCountriesList() -> [CountryData] {
         return notFilteredCountryList
     }
 }

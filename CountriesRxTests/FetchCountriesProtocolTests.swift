@@ -22,7 +22,7 @@ final class FetchCountriesProtocolTests: XCTestCase {
         dataService = nil
     }
     
-    func test_NetworkManager_fetchCountries() throws {
+    func test_FetchCountriesProtocolTests_fetchCountries() throws {
         // Given
         let expectation = self.expectation(description: "Fetch countries")
         
