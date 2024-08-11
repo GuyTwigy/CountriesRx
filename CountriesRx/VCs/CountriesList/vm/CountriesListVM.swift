@@ -29,6 +29,7 @@ class CountriesListVM {
     func singleFetchCountries() async {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
+            savedList.removeAll()
             savedList = realmCountries
             countryModifiedList.removeAll()
             
@@ -42,26 +43,7 @@ class CountriesListVM {
                         return
                     }
                     
-                    let missingCountries = self.savedList.filter { savedCountry in
-                        !countries.contains { $0.name?.common == savedCountry.name?.common }
-                    }
-
-                    if !missingCountries.isEmpty {
-                        self.savedList.removeAll { savedCountry in
-                            missingCountries.contains { $0.name?.common == savedCountry.name?.common }
-                        }
-                    }
-                    
-                    countryModifiedList = savedList
-                    
-                    let filteredCountryList = countries.filter { country in
-                        !self.countryModifiedList.contains { $0.name?.common == country.name?.common }
-                    }
-                    
-                    self.countryModifiedList.append(contentsOf: filteredCountryList)
-                    self.countryList.onNext(self.countryModifiedList)
-                    self.notFilteredCountryList = self.countryModifiedList
-                    self.delegate?.countriesFetched(error: nil)
+                    handleResultOfCountries(countriesResult: countries)
                 }, onFailure: { [weak self] error in
                     guard let self else {
                         self?.countryList.onNext(self?.countryModifiedList ?? [])
@@ -76,12 +58,14 @@ class CountriesListVM {
                 .disposed(by: disposeBag)
         } catch {
             print("Fail to fetch fav list, error: \(error.localizedDescription)")
+            delegate?.countriesFetched(error: error)
         }
     }
     
     func fetchCountries() async {
         do {
             let realmCountries = try await RealmManager.shared.fetchRealmCountries()
+            savedList.removeAll()
             savedList = realmCountries
             countryModifiedList.removeAll()
             countryModifiedList = savedList
@@ -101,26 +85,7 @@ class CountriesListVM {
                     print("result3: num of countries \(result3.count)")
                     print("result4: num of countries \(result4.count)")
                     
-                    let missingCountries = self.savedList.filter { savedCountry in
-                        !result1.contains { $0.name?.common == savedCountry.name?.common }
-                    }
-
-                    if !missingCountries.isEmpty {
-                        self.savedList.removeAll { savedCountry in
-                            missingCountries.contains { $0.name?.common == savedCountry.name?.common }
-                        }
-                    }
-                    
-                    countryModifiedList = savedList
-                    
-                    let filteredCountryList = result1.filter { country in
-                        !self.countryModifiedList.contains { $0.name?.common == country.name?.common }
-                    }
-                    
-                    self.countryModifiedList.append(contentsOf: filteredCountryList)
-                    self.countryList.onNext(self.countryModifiedList)
-                    self.notFilteredCountryList = self.countryModifiedList
-                    self.delegate?.countriesFetched(error: nil)
+                    handleResultOfCountries(countriesResult: result1)
                 }, onError: { [weak self] error in
                     guard let self else {
                         self?.countryList.onNext(self?.countryModifiedList ?? [])
@@ -137,6 +102,29 @@ class CountriesListVM {
             print("Failed to fetch fav list, error: \(error.localizedDescription)")
             delegate?.countriesFetched(error: error)
         }
+    }
+    
+    func handleResultOfCountries(countriesResult: [CountryData]) {
+        let missingCountries = savedList.filter { savedCountry in
+            !countriesResult.contains { $0.name?.common == savedCountry.name?.common }
+        }
+
+        if !missingCountries.isEmpty {
+            savedList.removeAll { savedCountry in
+                missingCountries.contains { $0.name?.common == savedCountry.name?.common }
+            }
+        }
+        
+        countryModifiedList = savedList
+        
+        let filteredCountryList = countriesResult.filter { country in
+            !countryModifiedList.contains { $0.name?.common == country.name?.common }
+        }
+        
+        countryModifiedList.append(contentsOf: filteredCountryList)
+        countryList.onNext(countryModifiedList)
+        notFilteredCountryList = countryModifiedList
+        delegate?.countriesFetched(error: nil)
     }
     
     func textFieldChanged(countries: [CountryData], text: String) {

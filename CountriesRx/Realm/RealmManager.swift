@@ -35,26 +35,26 @@ class RealmManager: ObservableObject {
             }, rerunOnOpen: true)
             if let configuration {
                 realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always)
-                print("connected succesfuly realm")
+                print("Connected successfully to Realm")
             }
         } catch {
-            print("Fail to connect with realm")
+            print("Failed to connect with Realm: \(error.localizedDescription)")
         }
     }
     
     func addCountry(newCountry: RealmCountryData) async throws {
         do {
             if let realm {
-                try realm.write({
+                try realm.write {
                     realm.add(newCountry)
                     print("\(newCountry.realmName ?? "") added successfully to saved list")
-                })
+                }
             } else {
                 try await initialRealm()
                 try await addCountry(newCountry: newCountry)
             }
         } catch {
-            print("\(newCountry.realmName ?? "") Fail to saved")
+            print("\(newCountry.realmName ?? "") failed to save: \(error.localizedDescription)")
             throw error
         }
     }
@@ -62,13 +62,20 @@ class RealmManager: ObservableObject {
     func fetchRealmCountries() async throws -> [CountryData] {
         do {
             if let realm {
-                countries = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt", ascending: false)
+                countries = realm.objects(RealmCountryData.self).sorted(byKeyPath: "identifierInt")
                 if let countries {
                     var newCountryArray: [CountryData] = []
                     let countriesArray = Array(countries)
-                    countriesArray.forEach { newCountryArray.append(CountryData(flag: $0.flag, name: NameDetails(common: $0.realmName), identifierInt: $0.identifierInt, objectIdString: $0._id?.stringValue))
+                    countriesArray.forEach { newCountryArray.append(CountryData(flag: $0.flag, name: NameDetails(common: $0.realmName), identifierInt: $0.identifierInt, objectIdString: $0._id?.stringValue)) }
+                    
+                    let sortedCountryArray = newCountryArray.sorted { country1, country2 in
+                        guard let id1 = Int(country1.identifierInt ?? ""),
+                              let id2 = Int(country2.identifierInt ?? "") else {
+                            return false
+                        }
+                        return id1 > id2
                     }
-                    return newCountryArray
+                    return sortedCountryArray
                 } else {
                     return []
                 }
@@ -76,6 +83,9 @@ class RealmManager: ObservableObject {
                 try await initialRealm()
                 return try await fetchRealmCountries()
             }
+        } catch {
+            print("Failed to fetch countries: \(error.localizedDescription)")
+            throw error
         }
     }
 }
