@@ -131,14 +131,14 @@ class CountriesListVM {
         countryModifiedList.removeAll()
         countryModifiedList = countries
         if !text.isEmpty {
-            countryModifiedList = filterCountries(with: text)
+            countryModifiedList = filterCountries(searchText: text)
         } else {
             countryModifiedList = resetCountriesList()
         }
         countryList.onNext(countryModifiedList)
     }
     
-    private func filterCountries(with searchText: String) -> [CountryData] {
+    private func filterCountries(searchText: String) -> [CountryData] {
         let filteredList = notFilteredCountryList.filter { country in
             return country.name?.common?.lowercased().contains(searchText.lowercased()) ?? false
         }
