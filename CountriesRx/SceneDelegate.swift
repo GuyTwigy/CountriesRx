@@ -8,10 +8,10 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    let realmManager = RealmManager.shared
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -21,12 +21,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         let window = UIWindow(windowScene: windowScene)
-        let initialViewController = CountriesListVC(nibName: "CountriesListVC", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: initialViewController)
-        navigationController.isNavigationBarHidden = true
-        window.rootViewController = navigationController
+        let loadingVC = UIViewController()
+        loadingVC.view.backgroundColor = .white
         self.window = window
+        window.rootViewController = loadingVC
         window.makeKeyAndVisible()
+        
+        Task {
+            do {
+                try await realmManager.initializeUser()
+                goToFirstVC()
+            } catch {
+                print("Failed to initialize Realm: \(error.localizedDescription)")
+                goToFirstVC()
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -56,7 +65,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
+    func goToFirstVC() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
+            
+            let initialViewController = CountriesListVC(nibName: "CountriesListVC", bundle: nil)
+            let navigationController = UINavigationController(rootViewController: initialViewController)
+            navigationController.isNavigationBarHidden = true
+            self.window?.rootViewController = navigationController
+        }
+    }
 }
 

@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CountriesListVC: UIViewController {
 
     private var vm: CountriesListVM?
     private var countryList: [CountryData] = []
-    private var notFilteredCountryList: [CountryData] = []
-    var finishedScroll: Bool = true
+    private var finishedScroll: Bool = true
+    private var disposebag = DisposeBag()
+    private var willAppearFirstTime: Bool = false
     
     @IBOutlet weak var loader: UIActivityIndicatorView! {
         didSet {
@@ -33,53 +36,66 @@ class CountriesListVC: UIViewController {
         addRefreshControl(to: tblCountries, action: #selector(refreshData))
         vm = CountriesListVM()
         vm?.delegate = self
+        bindTableData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if willAppearFirstTime {
+            Task {
+                try await vm?.singleFetchCountries()
+            }
+        }
+        willAppearFirstTime = true
     }
     
     private func setupTableView() {
         tblCountries.delegate = self
-        tblCountries.dataSource = self
         tblCountries.register(UINib(nibName: "CountryCell", bundle: nil), forCellReuseIdentifier: "CountryCell")
-    }
-    
-    private func filterCountries(with searchText: String) -> [CountryData] {
-        let filteredList = notFilteredCountryList.filter { country in
-            return country.name?.common?.lowercased().contains(searchText.lowercased()) ?? false
-        }
-        return filteredList
-    }
-    
-    private func resetCountriesList() -> [CountryData] {
-        return notFilteredCountryList
     }
     
     @objc private func refreshData() {
         searchTextField.text = ""
         Task {
-            await vm?.fetchCountries()
+            try await vm?.singleFetchCountries()
+        }
+    }
+    
+    func bindTableData() {
+        vm?.countryList.bind(to: tblCountries.rx.items(cellIdentifier: "CountryCell", cellType: CountryCell.self)) { row, model, cell in
+            cell.setupCellContent(country: model)
+        }.disposed (by: disposebag)
+        
+        tblCountries.rx.modelSelected(CountryData.self).subscribe { [weak self] country in
+            guard let self else {
+                return
+            }
+            
+            let vc = CountryFlagVC(country: country)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }.disposed(by: disposebag)
+        
+        
+        vm?.countryList.subscribe(onNext: { [weak self] countries in
+            guard let self else { 
+                return
+            }
+            
+            
+            self.countryList = countries
+            self.endRefreshing(scrollView: self.tblCountries)
+            noCountriesIndicationLbl.text = "No Countries Found for '\(searchTextField.text ?? "")'"
+            self.noCountriesIndicationLbl.isHidden = !countries.isEmpty
+            loader.stopAnimating()
+        }).disposed(by: disposebag)
+        
+        Task {
+            try await vm?.fourCallsfetchCountries()
         }
     }
 }
 
-extension CountriesListVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        countryList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell", for: indexPath) as! CountryCell
-        cell.setupCellContent(country: countryList[indexPath.row])
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = CountryFlagVC(country: countryList[indexPath.row])
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
-    }
+extension CountriesListVC: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if finishedScroll {
@@ -89,12 +105,12 @@ extension CountriesListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-            finishedScroll = true
-        }
+        finishedScroll = true
+    }
 }
 
 extension CountriesListVC: CountriesListVMDelegete {
-    func countriesFetched(countries: [CountryData]?, error: Error?) {
+    func countriesFetched(error: Error?) {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return
@@ -102,31 +118,17 @@ extension CountriesListVC: CountriesListVMDelegete {
             
             if let error {
                 self.showAlert(title: "Something went wrong, please try again", message: "\(error)")
-                self.tblCountries.reloadData()
                 self.endRefreshing(scrollView: self.tblCountries)
-            } else if let countries {
-                self.countryList.removeAll()
-                self.notFilteredCountryList.removeAll()
-                self.countryList = countries
-                self.notFilteredCountryList = countries
-                self.tblCountries.reloadData()
-                self.endRefreshing(scrollView: self.tblCountries)
+                loader.stopAnimating()
             }
-            self.loader.stopAnimating()
         }
     }
 }
 
 extension CountriesListVC: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if let searchText = textField.text, !searchText.isEmpty {
-            countryList = filterCountries(with: searchText)
-        } else {
-            countryList = resetCountriesList()
+        if let text = textField.text {
+            vm?.textFieldChanged(countries: countryList, text: text)
         }
-        noCountriesIndicationLbl.text = "No Countries Found for '\(textField.text ?? "")'"
-        noCountriesIndicationLbl.isHidden = !countryList.isEmpty
-        tblCountries.reloadData()
     }
 }
-

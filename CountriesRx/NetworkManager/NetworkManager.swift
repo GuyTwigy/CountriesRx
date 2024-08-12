@@ -27,7 +27,7 @@ class NetworkManager {
             request.httpMethod = "GET"
 
             let task = self?.session.dataTask(with: request) { data, response, error in
-                if let error = error {
+                if let error {
                     single(.failure(error))
                     return
                 }
