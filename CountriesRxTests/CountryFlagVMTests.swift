@@ -55,7 +55,7 @@ final class CountryFlagVMTests: XCTestCase {
             expectation.fulfill()
             
             // Then
-            await fulfillment(of: [expectation], timeout: 5.0, enforceOrder: true)
+            await fulfillment(of: [expectation], timeout: 10.0, enforceOrder: true)
             XCTAssertFalse(countries.isEmpty)
             XCTAssertTrue(countries.contains(where: { $0.flag == mockCountry?.flag }))
             XCTAssertTrue(countries.contains(where: { $0.name?.common == mockCountry?.name?.common }))

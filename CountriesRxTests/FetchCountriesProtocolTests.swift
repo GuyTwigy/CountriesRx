@@ -40,7 +40,7 @@ final class FetchCountriesProtocolTests: XCTestCase {
         XCTAssertNotNil(countriesResult)
         XCTAssertFalse(countriesResult?.isEmpty ?? true)
         XCTAssertGreaterThan(countriesResult?.count ?? 0, 1)
-        // Wait
+        
         wait(for: [expectation], timeout: 5.0)
     }
 }

@@ -46,33 +46,62 @@ class RealmManager: ObservableObject {
     
     func fetchRealmCountries() async throws -> [CountryData] {
         try await initializeRealm()
-        guard let realm else {
+        guard let realm = self.realm else {
             return []
         }
-        
-        let fetchedCountries = realm.objects(RealmCountryData.self)
-        let newCountryArray = fetchedCountries.map { CountryData(flag: $0.flag, name: NameDetails(common: $0.realmName), identifierInt: $0.identifierInt, objectIdString: $0._id?.stringValue) }
-        let sortedCountryArray = newCountryArray.sorted { country1, country2 in
-            guard let id1 = Int(country1.identifierInt ?? ""),
-                  let id2 = Int(country2.identifierInt ?? "") else {
-                return false
+
+        return try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {
+                    return
+                }
+                
+                do {
+                    let fetchedCountries = realm.objects(RealmCountryData.self)
+                    let newCountryArray = fetchedCountries.map {
+                        CountryData(
+                            flag: $0.flag,
+                            name: NameDetails(common: $0.realmName),
+                            identifierInt: $0.identifierInt,
+                            objectIdString: $0._id?.stringValue
+                        )
+                    }
+                    let sortedCountryArray = newCountryArray.sorted { country1, country2 in
+                        guard let id1 = Int(country1.identifierInt ?? ""),
+                              let id2 = Int(country2.identifierInt ?? "") else {
+                            return false
+                        }
+                        return id1 > id2
+                    }
+
+                    continuation.resume(returning: sortedCountryArray)
+                }
             }
-            return id1 > id2
         }
-        
-        return sortedCountryArray
     }
-    
+
     func addCountry(newCountry: RealmCountryData) async throws {
         try await initializeRealm()
-        
-        guard let realm else { 
+        guard let realm = self.realm else {
             return
         }
-        
-        try realm.write {
-            realm.add(newCountry)
-            print("\(newCountry.realmName ?? "") added successfully to saved list")
+
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {
+                    return
+                }
+                
+                do {
+                    try realm.write {
+                        realm.add(newCountry)
+                        print("\(newCountry.realmName ?? "") added successfully to saved list")
+                    }
+                    continuation.resume()
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
         }
     }
 }
