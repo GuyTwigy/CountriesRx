@@ -7,8 +7,6 @@
 
 import XCTest
 @testable import CountriesRx
-import RxSwift
-import RxBlocking
 
 final class NetworkManagerTests: XCTestCase {
     var networkManager: NetworkManager?

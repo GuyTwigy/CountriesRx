@@ -18,12 +18,6 @@ class RealmManager: ObservableObject {
     @Published var user: User?
     @Published var countries: Results<RealmCountryData>?
     
-    private init() {
-        Task {
-            try await initialRealm()
-        }
-    }
-    
     func initialRealm() async throws {
         do {
             if let currentUser = app.currentUser {
@@ -36,29 +30,14 @@ class RealmManager: ObservableObject {
                 throw NSError(domain: "RealmManager", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to log in or find a user"])
             }
             
-            var config = Realm.Configuration()
-            config.objectTypes = [RealmCountryData.self]
-            realm = try await Realm(configuration: config)
-            print("Successfully initialized local Realm")
-        } catch {
-            print("Failed to initialize Realm: \(error.localizedDescription)")
-            throw error
-        }
-    }
-    
-    func addCountry(newCountry: RealmCountryData) async throws {
-        do {
-            if let realm = realm {
-                try realm.write {
-                    realm.add(newCountry)
-                    print("\(newCountry.realmName ?? "") added successfully to saved list")
-                }
-            } else {
-                try await initialRealm()
-                try await addCountry(newCountry: newCountry)
+            if realm == nil {
+                var config = Realm.Configuration()
+                config.objectTypes = [RealmCountryData.self]
+                realm = try await Realm(configuration: config)
+                print("Successfully initialized local Realm")
             }
         } catch {
-            print("Failed to save \(newCountry.realmName ?? ""): \(error.localizedDescription)")
+            print("Failed to initialize Realm: \(error.localizedDescription)")
             throw error
         }
     }
@@ -89,6 +68,23 @@ class RealmManager: ObservableObject {
             }
         } catch {
             print("Failed to fetch countries: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    func addCountry(newCountry: RealmCountryData) async throws {
+        do {
+            if let realm {
+                try realm.write {
+                    realm.add(newCountry)
+                    print("\(newCountry.realmName ?? "") added successfully to saved list")
+                }
+            } else {
+                try await initialRealm()
+                try await addCountry(newCountry: newCountry)
+            }
+        } catch {
+            print("Failed to save \(newCountry.realmName ?? ""): \(error.localizedDescription)")
             throw error
         }
     }

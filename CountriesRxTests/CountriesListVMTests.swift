@@ -26,7 +26,7 @@ class CountriesListVMTests: XCTestCase {
         vm?.notFilteredCountryList.removeAll()
     }
     
-    func test_CountriesListVMTests_handleResultOfCountries_inSavedCountryButNotInList() {
+    func test_CountriesListVM_handleResultOfCountries_inSavedCountryButNotInList() {
         //Given
         let countriesArray = [
             CountryData(flag: "🇮🇱", name: NameDetails(common: "Israel"), identifierInt: "100", objectIdString:                          Utils.generate24HexDigitString()),
@@ -52,7 +52,7 @@ class CountriesListVMTests: XCTestCase {
         XCTAssertTrue(((!(vm?.countryModifiedList.contains( where: { $0.name?.common == "Italy" }) ?? false))))
     }
     
-    func test_CountriesListVMTests_handleResultOfCountries_savedListEmpty() {
+    func test_CountriesListVM_handleResultOfCountries_savedListEmpty() {
         //Given
         let countriesArray = [
             CountryData(flag: "🇮🇱", name: NameDetails(common: "Israel"), identifierInt: "100", objectIdString:                          Utils.generate24HexDigitString()),
@@ -74,7 +74,7 @@ class CountriesListVMTests: XCTestCase {
         XCTAssertTrue(((!(vm?.countryModifiedList.contains( where: { $0.name?.common == "Italy" }) ?? false))))
     }
     
-    func test_CountriesListVMTests_handleResultOfCountries_sameOnSavedAndCountryArray() {
+    func test_CountriesListVM_handleResultOfCountries_sameOnSavedAndCountryArray() {
         //Given
         let countriesArray = [
             CountryData(flag: "🇮🇱", name: NameDetails(common: "Israel"), identifierInt: "100", objectIdString:                          Utils.generate24HexDigitString()),
@@ -101,7 +101,7 @@ class CountriesListVMTests: XCTestCase {
         XCTAssertTrue(((!(vm?.countryModifiedList.contains( where: { $0.name?.common == "Italy" }) ?? false))))
     }
     
-    func test_CountriesListVMTests_handleResultOfCountries_emptyCountryArrWithSaved() {
+    func test_CountriesListVM_handleResultOfCountries_emptyCountryArrWithSaved() {
         //Given
         let countriesArray: [CountryData] = []
         vm?.savedList = [
@@ -123,7 +123,7 @@ class CountriesListVMTests: XCTestCase {
         XCTAssertTrue(((!(vm?.countryModifiedList.contains( where: { $0.name?.common == "Italy" }) ?? false))))
     }
     
-    func test_CountriesListVMTests_singleFetchCountriesSuccess() async throws {
+    func test_CountriesListVM_singleFetchCountriesSuccess() async throws {
         // Given
         vm?.countryModifiedList.removeAll()
         vm?.savedList.removeAll()
@@ -155,7 +155,7 @@ class CountriesListVMTests: XCTestCase {
         print("vm?.countryModifiedList.count: \(vm?.countryModifiedList.count ?? 0)")
     }
     
-    func test_CountriesListVMTests_fourCallsfetchCountriesSuccess() async throws {
+    func test_CountriesListVM_fourCallsfetchCountriesSuccess() async throws {
         // Given
         vm?.countryModifiedList.removeAll()
         vm?.savedList.removeAll()
@@ -217,7 +217,7 @@ class CountriesListVMTests: XCTestCase {
         print("vm?.countryModifiedList.count: \(vm?.countryModifiedList.count ?? 0)")
     }
     
-    func test_CountriesListVMTests_textFieldChanged_text_i() async throws {
+    func test_CountriesListVM_textFieldChanged_text_i() async throws {
         //Givev
         let countriesArray = [
             CountryData(flag: "🇮🇱", name: NameDetails(common: "Israel"), identifierInt: "100", objectIdString:                          Utils.generate24HexDigitString()),
@@ -248,7 +248,7 @@ class CountriesListVMTests: XCTestCase {
         XCTAssertEqual(vm?.countryModifiedList.last, expectedResult.last)
     }
     
-    func test_CountriesListVMTests_textFieldChanged_text_ra() async throws {
+    func test_CountriesListVM_textFieldChanged_text_ra() async throws {
         //Givev
         let countriesArray = [
             CountryData(flag: "🇮🇱", name: NameDetails(common: "Israel"), identifierInt: "100", objectIdString:                          Utils.generate24HexDigitString()),
