@@ -51,11 +51,7 @@ class RealmManager: ObservableObject {
         }
 
         return try await withCheckedThrowingContinuation { continuation in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else {
-                    return
-                }
-                
+            DispatchQueue.main.async {
                 do {
                     let fetchedCountries = realm.objects(RealmCountryData.self)
                     let newCountryArray = fetchedCountries.map {
@@ -87,11 +83,7 @@ class RealmManager: ObservableObject {
         }
 
         try await withCheckedThrowingContinuation { continuation in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else {
-                    return
-                }
-                
+            DispatchQueue.main.async {
                 do {
                     try realm.write {
                         realm.add(newCountry)
