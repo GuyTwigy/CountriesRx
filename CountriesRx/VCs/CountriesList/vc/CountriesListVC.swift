@@ -43,7 +43,7 @@ class CountriesListVC: UIViewController {
         super.viewWillAppear(animated)
         if willAppearFirstTime {
             Task {
-                await vm?.singleFetchCountries()
+                try await vm?.singleFetchCountries()
             }
         }
         willAppearFirstTime = true
@@ -57,7 +57,7 @@ class CountriesListVC: UIViewController {
     @objc private func refreshData() {
         searchTextField.text = ""
         Task {
-            await vm?.singleFetchCountries()
+            try await vm?.singleFetchCountries()
         }
     }
     
@@ -90,7 +90,7 @@ class CountriesListVC: UIViewController {
         }).disposed(by: disposebag)
         
         Task {
-            await vm?.fetchCountries()
+            try await vm?.fourCallsfetchCountries()
         }
     }
 }

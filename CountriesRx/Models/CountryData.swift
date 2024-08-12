@@ -23,7 +23,11 @@ class RealmCountryData: Object, ObjectKeyIdentifiable, Codable {
     }
 }
 
-class CountryData: Codable {
+class CountryData: Codable, Equatable {
+    static func == (lhs: CountryData, rhs: CountryData) -> Bool {
+        return lhs.name?.common == rhs.name?.common
+    }
+    
     var name: NameDetails? = nil
     var flag: String? = nil
     var identifierInt: String?
@@ -37,7 +41,11 @@ class CountryData: Codable {
     }
 }
 
-class NameDetails: Codable {
+class NameDetails: Codable, Equatable {
+    static func == (lhs: NameDetails, rhs: NameDetails) -> Bool {
+        return lhs.common == rhs.common
+    }
+    
     var common: String? = nil
     
     init(common: String? = nil) {
