@@ -29,11 +29,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         Task {
             do {
-                try await realmManager.initialRealm()
+                try await realmManager.initializeUser()
                 goToFirstVC()
             } catch {
                 print("Failed to initialize Realm: \(error.localizedDescription)")
-                goToFirstVC() // Proceed even if there's an error
+                goToFirstVC()
             }
         }
     }
